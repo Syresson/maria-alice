@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Convite - 1 aninho da Maria Alice</title>
+
+  <style>
+    :root{
+      --card:#ffffffcc;
+      --stroke:#00000010;
+      --text:#1d1d1d;
+      --muted:#4b4b4b;
+      --accent:#e63946;
+      --accent2:#2a9d8f;
+      --accent3:#f4a261;
+      --shadow: 0 18px 50px rgba(0,0,0,.12);
+    }
+
+    *{ box-sizing:border-box; }
+
+    body{
+      margin:0;
+      min-height:100vh;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      background-image: url("fundo.jpg");
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:22px;
+    }
+
+    .wrap{ width:min(620px, 100%); }
+
+    .card{
+      background: var(--card);
+      border:1px solid var(--stroke);
+      border-radius:24px;
+      box-shadow: var(--shadow);
+      padding:22px;
+      position:relative;
+      overflow:hidden;
+    }
+
+    .confetti{
+      position:absolute;
+      inset:-20px;
+      background:
+        radial-gradient(10px 10px at 8% 18%, #e63946aa, transparent 60%),
+        radial-gradient(8px 8px at 22% 10%, #2a9d8faa, transparent 60%),
+        radial-gradient(9px 9px at 90% 20%, #f4a261aa, transparent 60%),
+        radial-gradient(7px 7px at 75% 8%, #e9c46aaa, transparent 60%),
+        radial-gradient(6px 6px at 12% 88%, #2a9d8faa, transparent 60%),
+        radial-gradient(9px 9px at 85% 85%, #e63946aa, transparent 60%);
+      opacity:.55;
+      pointer-events:none;
+    }
+
+    header{
+      display:flex;
+      justify-content:space-between;
+      gap:12px;
+      flex-wrap:wrap;
+    }
+
+    .tag{
+      display:inline-flex;
+      align-items:center;
+      gap:10px;
+      padding:8px 12px;
+      border-radius:999px;
+      border:1px solid #00000012;
+      background:#ffffffd6;
+      font-size:13px;
+      font-weight:700;
+    }
+
+    .tag .dot{
+      width:10px;height:10px;border-radius:50%;
+      background:var(--accent);
+      box-shadow:0 0 0 4px #e6394620;
+    }
+
+    h1{ margin:10px 0 4px; font-size:36px; }
+
+    .subtitle{
+      margin:0 0 14px;
+      color:var(--muted);
+      font-size:15px;
+    }
+
+    .banner{
+      border-radius:18px;
+      background:
+        linear-gradient(90deg, #e6394615, #2a9d8f12),
+        radial-gradient(800px 120px at 20% 50%, #e6394622, transparent 60%);
+      border:1px solid #00000012;
+      padding:14px;
+      margin-top:10px;
+    }
+
+    .grid{
+      display:grid;
+      gap:12px;
+      grid-template-columns:1fr;
+      margin-top:14px;
+    }
+
+    @media(min-width:560px){
+      .grid{ grid-template-columns:1fr 1fr; }
+      .wide{ grid-column:1 / -1; }
+    }
+
+    .item{
+      background:#fff;
+      border:1px solid #00000012;
+      border-radius:16px;
+      padding:14px;
+    }
+
+    .label{
+      text-transform:uppercase;
+      font-size:12px;
+      font-weight:800;
+      color:var(--muted);
+    }
+
+    .value{
+      font-size:15px;
+      font-weight:800;
+    }
+
+    .msg{
+      margin-top:14px;
+      padding:14px;
+      border-radius:16px;
+      background:#fffaf4;
+      border:1px dashed #00000022;
+      font-size:14px;
+    }
+
+    .actions{
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      gap:12px;
+      margin-top:16px;
+      flex-wrap:wrap;
+    }
+
+    .btn{
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      gap:10px;
+      padding:13px 14px;
+      border-radius:16px;
+      text-decoration:none;
+      font-weight:900;
+      font-size:14px;
+      border:1px solid transparent;
+      user-select:none;
+      cursor:pointer;
+    }
+
+    .btn.maps{
+      background: linear-gradient(90deg, #2a9d8f, #1f7f74);
+      color:#062a26;
+    }
+
+    .btn.confirm{
+      background: linear-gradient(90deg, var(--accent), #ff6b6b);
+      color:#2b070a;
+    }
+
+    /* MODAL (somente funcional, sem impacto visual no convite) */
+    .modal{
+      position:fixed;
+      inset:0;
+      background:rgba(0,0,0,.55);
+      display:none;
+      align-items:center;
+      justify-content:center;
+      padding:16px;
+      z-index:99999;
+    }
+
+    .modal-box{
+      width:min(680px,100%);
+      height:min(90vh,760px);
+      background:#fff;
+      border-radius:18px;
+      overflow:hidden;
+      position:relative;
+    }
+
+    .modal-close{
+      position:absolute;
+      top:10px;
+      right:10px;
+      border:none;
+      background:#fff;
+      border-radius:999px;
+      padding:8px 10px;
+      font-weight:900;
+      cursor:pointer;
+      z-index:2;
+    }
+
+    .modal-iframe{
+      width:100%;
+      height:100%;
+      border:0;
+    }
+  </style>
+</head>
+
+<body>
+
+<!-- 🎵 Música -->
+<audio id="bgMusic" loop>
+  <source src="musica_magali.mp3" type="audio/mpeg">
+</audio>
+
+<div class="wrap">
+  <div class="card">
+    <div class="confetti"></div>
+
+    <header>
+      <div class="tag"><span class="dot"></span> Tema: Magali 🍉</div>
+      <div class="tag">🎂 1 aninho</div>
+    </header>
+
+    <h1>Maria Alice</h1>
+    <p class="subtitle">
+      Você está convidado(a) para comemorar o <b>1º aninho</b> da nossa pequena!
+      Vai ser um momento muito especial — esperamos você! 💖
+    </p>
+
+    <div class="banner">
+      🎉 <b>Convite Especial</b> • Domingo, 08/03/2026 • 16:00<br>
+      Villa Bela Recepções — Av. Visconde de Utinga, Nº 19
+    </div>
+
+    <div class="grid">
+      <div class="item">
+        <div class="label">Data</div>
+        <div class="value">08/03/2026 (domingo)</div>
+      </div>
+      <div class="item">
+        <div class="label">Horário</div>
+        <div class="value">16:00</div>
+      </div>
+      <div class="item wide">
+        <div class="label">Local</div>
+        <div class="value">Villa Bela Recepções</div>
+      </div>
+    </div>
+
+    <div class="msg">
+      <b>Com carinho:</b><br>
+      Venha comemorar esse dia com a gente! 💖
+    </div>
+
+    <div class="actions">
+      <a class="btn maps"
+         href="https://maps.app.goo.gl/dLBN3GnN3CYHUYP18"
+         target="_blank">
+        📍 Como chegar
+      </a>
+
+      <!-- ÚNICA MUDANÇA FUNCIONAL -->
+      <button class="btn confirm" id="openConfirm">
+        ✅ Confirmar presença
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL -->
+<div class="modal" id="confirmModal">
+  <div class="modal-box">
+    <button class="modal-close" id="closeConfirm">✖</button>
+    <iframe class="modal-iframe" id="confirmFrame"></iframe>
+  </div>
+</div>
+
+<script>
+  /* 🎵 Música contínua */
+  const music = document.getElementById("bgMusic");
+  music.volume = 0.2;
+
+  document.addEventListener("click", () => {
+    if (music.paused) music.play().catch(()=>{});
+  }, { once:true });
+
+  /* Modal confirmação */
+  const modal = document.getElementById("confirmModal");
+  const frame = document.getElementById("confirmFrame");
+
+  document.getElementById("openConfirm").onclick = () => {
+    frame.src = "confirmacao.html";
+    modal.style.display = "flex";
+  };
+
+  document.getElementById("closeConfirm").onclick = () => {
+    modal.style.display = "none";
+    frame.src = "";
+  };
+
+  modal.addEventListener("click", e => {
+    if (e.target === modal) {
+      modal.style.display = "none";
+      frame.src = "";
+    }
+  });
+</script>
+
+</body>
+</html>
