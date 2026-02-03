@@ -177,7 +177,7 @@
       color:#2b070a;
     }
 
-    /* MODAL (somente funcional, sem impacto visual no convite) */
+    /* MODAL */
     .modal{
       position:fixed;
       inset:0;
@@ -243,7 +243,7 @@
 
     <div class="banner">
       🎉 <b>Convite Especial</b> • Domingo, 08/03/2026 • 16:00<br>
-      Villa Bela Recepções — Av. Visconde de Utinga, Nº 19
+      Villa Bella Recepções — Av. Visconde de Utinga, Nº 19
     </div>
 
     <div class="grid">
@@ -257,7 +257,7 @@
       </div>
       <div class="item wide">
         <div class="label">Local</div>
-        <div class="value">Villa Bela Recepções</div>
+        <div class="value">Villa Bella Recepções</div>
       </div>
     </div>
 
@@ -273,7 +273,6 @@
         📍 Como chegar
       </a>
 
-      <!-- ÚNICA MUDANÇA FUNCIONAL -->
       <button class="btn confirm" id="openConfirm">
         ✅ Confirmar presença
       </button>
@@ -290,7 +289,7 @@
 </div>
 
 <script>
-  /* 🎵 Música contínua */
+  /* 🎵 Música */
   const music = document.getElementById("bgMusic");
   music.volume = 0.2;
 
@@ -298,24 +297,34 @@
     if (music.paused) music.play().catch(()=>{});
   }, { once:true });
 
-  /* Modal confirmação */
+  /* Modal */
   const modal = document.getElementById("confirmModal");
   const frame = document.getElementById("confirmFrame");
+  const openBtn = document.getElementById("openConfirm");
+  const closeBtn = document.getElementById("closeConfirm");
 
-  document.getElementById("openConfirm").onclick = () => {
+  openBtn.onclick = () => {
     frame.src = "confirmacao.html";
     modal.style.display = "flex";
   };
 
-  document.getElementById("closeConfirm").onclick = () => {
-    modal.style.display = "none";
-    frame.src = "";
-  };
+  function closeAndRedirect(){
+    if (!music.paused){
+      music.pause();
+      music.currentTime = 0;
+    }
+    window.location.href = "https://www.google.com.br";
+  }
+
+  closeBtn.onclick = closeAndRedirect;
 
   modal.addEventListener("click", e => {
-    if (e.target === modal) {
-      modal.style.display = "none";
-      frame.src = "";
+    if (e.target === modal) closeAndRedirect();
+  });
+
+  window.addEventListener("keydown", e => {
+    if (e.key === "Escape" && modal.style.display === "flex") {
+      closeAndRedirect();
     }
   });
 </script>
